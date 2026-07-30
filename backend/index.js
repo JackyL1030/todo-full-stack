@@ -25,9 +25,16 @@ app.get("/api/todos", async (req, res) => {
 
 // POST create a todo
 app.post("/api/todos", async (req, res) => {
-    console.log(req.body);
-    const todo = await Todo.create(req.body);
-    res.json(todo);
+  console.log(req.body);
+  const todo = await Todo.create(req.body);
+  res.json(todo);
+});
+
+// DELETE remove a todo
+app.delete("/api/todos/:id", async (req, res) => {
+  const result = await Todo.findByIdAndDelete(req.params.id);
+  console.log(result);
+  res.json(result);
 });
 
 app.listen(port, () => {

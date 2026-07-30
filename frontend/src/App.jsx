@@ -45,14 +45,15 @@ export default function App() {
     // focus on the input
     inputRef.current.focus();
 
+    // updating the state with our new todo
     setTodos([...todos, newTodo]);
   }
 
   function handleDelete(id) {
     console.log(id);
-    // delete the todo we clicked on using its id 
+    // delete the todo we clicked on using its id
     fetch(`http://localhost:3000/api/todos/${id}`, {
-      method: 'DELETE'
+      method: "DELETE",
     });
   }
 
