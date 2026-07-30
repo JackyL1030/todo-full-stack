@@ -26,18 +26,26 @@ export default function App() {
 
     console.log(todo);
 
-    // send this data as a POST request 
+    // send this data as a POST request
     const response = await fetch("http://localhost:3000/api/todos", {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(todo),
-      header: {
-        'Content-Type' : 'application/json'
-      }
-    })
-    
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
     const newTodo = await response.json();
-    
+
     console.log(newTodo);
+
+    // reset the input's value
+    inputRef.current.value = "";
+
+    // focus on the input 
+    inputRef.current.focus();
+
+    setTodos([...todos, newTodo]);
   }
 
   return (
@@ -52,7 +60,7 @@ export default function App() {
       <ul>
         {todos.map((todo) => (
           <li key={todo._id}>
-            <input type="checkbox" checked={todo.completed} />
+            <input type="checkbox" checked={todo.completed} onChange={() => {}}/>
             {todo.text}
           </li>
         ))}
