@@ -16,7 +16,7 @@ export default function App() {
     getData();
   }, []);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
     // package up our todo with the input value
@@ -27,6 +27,17 @@ export default function App() {
     console.log(todo);
 
     // send this data as a POST request 
+    const response = await fetch("http://localhost:3000/api/todos", {
+      method: 'POST',
+      body: JSON.stringify(todo),
+      header: {
+        'Content-Type' : 'application/json'
+      }
+    })
+    
+    const newTodo = await response.json();
+    
+    console.log(newTodo);
   }
 
   return (
