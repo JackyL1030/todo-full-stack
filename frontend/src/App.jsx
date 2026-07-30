@@ -2,15 +2,20 @@ import { useRef } from "react";
 import { useState, useEffect } from "react";
 
 export default function App() {
+
   const [todos, setTodos] = useState([]);
   const inputRef = useRef();
 
   async function getData() {
     // get all todo items
-    const response = await fetch("http://localhost:3000/api/todos");
-    const data = await response.json();
-    console.log(data);
-    setTodos(data);
+    try {
+      const response = await fetch('http://localhost:3000/api/todos');
+      const data = await response.json();
+      console.log(data);
+      setTodos(data);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   useEffect(() => {
@@ -20,72 +25,93 @@ export default function App() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // package up our todo with the input value
-    const todo = {
-      text: inputRef.current.value,
-    };
+    try {
 
-    console.log(todo);
+      // package up our todo with the input value 
+      const todo = {
+        text: inputRef.current.value
+      };
 
-    // send this data as a POST request
-    const response = await fetch("http://localhost:3000/api/todos", {
-      method: "POST",
-      body: JSON.stringify(todo),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+      console.log(todo);
 
-    const newTodo = await response.json();
+      // send this data as a POST request
+      const response = await fetch('http://localhost:3000/api/todos', {
+        method: 'POST',
+        body: JSON.stringify(todo),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
 
-    console.log(newTodo);
+      const newTodo = await response.json();
 
-    // reset the input's value
-    inputRef.current.value = "";
+      console.log(newTodo);
 
-    // focus on the input
-    inputRef.current.focus();
+      // reset the input's value
+      inputRef.current.value = "";
 
-    // retrieve our latest data from our database
-    getData();
+      // focus on the input
+      inputRef.current.focus();
 
-    // ALTERNATIVE: updating the state with our new todo
-    // setTodos([...todos, newTodo]);
+      // retrieve our latest data from our database
+      getData();
+
+      // ALTERNATIVE: updating the state with our new todo 
+      // setTodos([...todos, newTodo]);
+    } catch (e) {
+      console.log(e);
+    }
+
   }
 
   async function handleDelete(id) {
-    console.log(id);
-    // delete the todo we clicked on using its id
-    await fetch(`http://localhost:3000/api/todos/${id}`, {
-      method: "DELETE",
-    });
 
-    // retrieve our latest data from our database
-    getData();
+    try {
+      console.log(id);
+      // delete the todo we clicked on using its id
+      await fetch(`http://localhost:3000/api/todos/${id}`, {
+        method: 'DELETE'
+      });
+
+      // retrieve our latest data from our database
+      getData();
+    } catch (e) {
+      console.log(e);
+    }
+
   }
 
   async function handleUpdate(id) {
-    // find the todo in our state
-    const todo = todos.find((todo) => todo._id == id);
 
-    // update the value of the completed property
-    todo.completed = !todo.completed;
+    try {
 
-    // send the updated todo in a PUT request
-    await fetch(`http://localhost:3000/api/todos/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(todo),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+      // find the todo in our state 
+      const todo = todos.find((todo) => todo._id == id);
 
-    // retrieve our latest data from our database
-    getData();
+      // update the value of the completed property 
+      todo.completed = !todo.completed
+
+      // send the updated todo in a PUT request
+      await fetch(`http://localhost:3000/api/todos/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(todo),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      // retrieve our latest data from our database
+      getData();
+      
+    } catch (e) {
+      console.log(e);
+    }
+
   }
 
   return (
     <div>
+
       <h1>Todos</h1>
 
       <form onSubmit={handleSubmit}>
@@ -94,7 +120,7 @@ export default function App() {
       </form>
 
       <ul>
-        {todos.map((todo) => (
+        {todos.map((todo) =>
           <li key={todo._id}>
             <input
               type="checkbox"
@@ -104,8 +130,9 @@ export default function App() {
             {todo.text}
             <button onClick={() => handleDelete(todo._id)}>X</button>
           </li>
-        ))}
+        )}
       </ul>
+
     </div>
-  );
+  )
 }
