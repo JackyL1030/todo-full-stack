@@ -72,7 +72,7 @@ export default function App() {
     todo.completed = !todo.completed;
 
     // send the updated todo in a PUT request
-    const response = await fetch(`http://localhost:3000/api/todos/${id}`, {
+    await fetch(`http://localhost:3000/api/todos/${id}`, {
       method: "PUT",
       body: JSON.stringify(todo),
       headers: {
