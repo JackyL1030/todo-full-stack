@@ -42,10 +42,18 @@ export default function App() {
     // reset the input's value
     inputRef.current.value = "";
 
-    // focus on the input 
+    // focus on the input
     inputRef.current.focus();
 
     setTodos([...todos, newTodo]);
+  }
+
+  function handleDelete(id) {
+    console.log(id);
+    // delete the todo we clicked on using its id 
+    fetch(`http://localhost:3000/api/todos/${id}`, {
+      method: 'DELETE'
+    });
   }
 
   return (
@@ -60,8 +68,13 @@ export default function App() {
       <ul>
         {todos.map((todo) => (
           <li key={todo._id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => {}}/>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => {}}
+            />
             {todo.text}
+            <button onClick={() => handleDelete(todo._id)}>X</button>
           </li>
         ))}
       </ul>
