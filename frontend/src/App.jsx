@@ -53,14 +53,15 @@ export default function App() {
     // setTodos([...todos, newTodo]);
   }
 
-  function handleDelete(id) {
+  async function handleDelete(id) {
     console.log(id);
     // delete the todo we clicked on using its id
-    fetch(`http://localhost:3000/api/todos/${id}`, {
+    await fetch(`http://localhost:3000/api/todos/${id}`, {
       method: "DELETE",
     });
 
-    // remove the todo item from our state
+    // retrieve our latest data from our database
+    getData();
   }
 
   return (
