@@ -64,6 +64,26 @@ export default function App() {
     getData();
   }
 
+  async function handleUpdate(id) {
+    // find the todo in our state
+    const todo = todos.find((todo) => todo._id == id);
+
+    // update the value of the completed property
+    todo.completed = !todo.completed;
+
+    // send the updated todo in a PUT request
+    const response = await fetch(`http://localhost:3000/api/todos/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(todo),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // retrieve our latest data from our database
+    getData();
+  }
+
   return (
     <div>
       <h1>Todos</h1>
@@ -79,7 +99,7 @@ export default function App() {
             <input
               type="checkbox"
               checked={todo.completed}
-              onChange={() => {}}
+              onChange={() => handleUpdate(todo._id)}
             />
             {todo.text}
             <button onClick={() => handleDelete(todo._id)}>X</button>
