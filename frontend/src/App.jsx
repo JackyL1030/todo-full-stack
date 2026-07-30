@@ -55,6 +55,9 @@ export default function App() {
     fetch(`http://localhost:3000/api/todos/${id}`, {
       method: "DELETE",
     });
+
+    // remove the todo item from our state
+
   }
 
   return (
