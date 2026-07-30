@@ -17,10 +17,11 @@ export default function App() {
 
   return (
     <div>
-      Hello World!
+      <h1>Todos</h1>
       <ul>
         {todos.map((todo) => 
         <li key={todo._id}>
+          <input type="checkbox" checked={todo.completed}/>
           {todo.text}
         </li>
         )}
