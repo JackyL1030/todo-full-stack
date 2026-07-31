@@ -1,10 +1,13 @@
 import mongoose from "mongoose";
 
-const todoSchema = mongoose.Schema({
-  text: { type: String, required: true },
-  completed: {type: Boolean, default: false}
-});
+const todoSchema = mongoose.Schema(
+  {
+    text: { type: String, required: true },
+    completed: { type: Boolean, default: false },
+  },
+  { timestamps: true },
+);
 
-const Todo = mongoose.model('todo', todoSchema);
+const Todo = mongoose.model("todo", todoSchema);
 
 export default Todo;
